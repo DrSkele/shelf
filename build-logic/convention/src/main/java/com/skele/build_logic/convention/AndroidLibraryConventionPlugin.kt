@@ -15,7 +15,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             configure<LibraryExtension>{
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 34
+                lint.targetSdk = 34
             }
 
             dependencies {

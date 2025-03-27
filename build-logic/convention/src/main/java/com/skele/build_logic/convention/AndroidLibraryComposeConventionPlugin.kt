@@ -16,7 +16,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
 
             configure<LibraryExtension>{
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 34
+                lint.targetSdk = 34
                 configureAndroidCompose(this)
             }
 
