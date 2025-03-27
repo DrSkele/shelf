@@ -13,7 +13,7 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 
 # kotlinx
-kotlinxSerializationCore = "1.5.1"
+kotlinxSerialization = "1.5.1"
 kotlinxImmutableCollections = "0.3.5"
 
 # compose
@@ -40,7 +40,8 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
 # kotlinx
-kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxImmutableCollections" }
 
 # android compose
