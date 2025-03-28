@@ -1,5 +1,8 @@
 package com.skele.alarm.ui.alarm
 
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun AlarmPage(
@@ -23,13 +25,26 @@ fun AlarmPage(
     viewModel: AlarmViewModel,
 ) {
     val context = LocalContext.current
-    val isRunning by viewModel.isRunning.collectAsState()
-    val alarmFired by viewModel.alarmFired.collectAsState()
+    val isRunning by viewModel.isAlarmRunning.collectAsState()
 
-    LaunchedEffect(alarmFired) {
-        if (alarmFired) {
-            Toast.makeText(context, "Alarm Fired", Toast.LENGTH_LONG).show()
-            viewModel.resetAlarmFired()
+    LaunchedEffect(Unit) {
+        viewModel.eventFlow.collect { event ->
+            when (event) {
+                is AlarmEvent.RequestExactAlarmPermission -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                        context.startActivity(intent)
+                    }
+                }
+
+                is AlarmEvent.ShowAlarmFinishedToast -> {
+                    Toast.makeText(
+                        context,
+                        "Alarm Finished",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
     }
 
@@ -39,9 +54,9 @@ fun AlarmPage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(onClick = {
-            viewModel.setAlarm(context)
+            viewModel.startAlarm(context)
         }) {
-            Text(if (isRunning) "Alarm running" else "Set Alarm")
+            Text(if (isRunning) "Alarm Running" else "Start Alarm")
         }
     }
 }
