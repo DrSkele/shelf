@@ -23,3 +23,4 @@ dependencyResolutionManagement {
 rootProject.name = "My App"
 include(":app")
 include(":practice")
+include(":todo:alarm")

@@ -1,7 +1,7 @@
 [versions]
 # gradle
 agp = "8.7.1"
-kotlin = "2.0.0"
+kotlin = "2.0.20"
 
 # ksp
 ksp = "2.0.20-1.0.25"
