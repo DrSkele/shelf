@@ -1,4 +1,4 @@
-package com.skele.alarm.di
+package com.skele.alarm.alarm
 
 import android.app.AlarmManager
 import android.content.Context
