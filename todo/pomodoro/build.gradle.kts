@@ -26,5 +26,5 @@ android {
 }
 
 dependencies {
-
+    testImplementation(libs.kotlinx.coroutines.test)
 }
