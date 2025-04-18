@@ -36,7 +36,7 @@ class DefaultTimerControllerTest {
     }
 
     @Test
-    fun testSetTimer_setsInitialStateCorrectly() =
+    fun `state initialized correctly`() =
         testScope.runTest {
             timerController.setTimer(5000L)
             val state = timerController.timerState.value
@@ -46,7 +46,7 @@ class DefaultTimerControllerTest {
         }
 
     @Test
-    fun testStart_countsDownCorrectly() =
+    fun `timer starts correctly`() =
         testScope.runTest {
             timerController.setTimer(3000L)
             timerController.start()
@@ -59,7 +59,7 @@ class DefaultTimerControllerTest {
         }
 
     @Test
-    fun testPause_stopsCountdown() =
+    fun `timer pauses correctly`() =
         testScope.runTest {
             timerController.setTimer(3000L)
             timerController.start()
@@ -76,7 +76,7 @@ class DefaultTimerControllerTest {
         }
 
     @Test
-    fun testResume_continuesCountdown() =
+    fun `remaining timer is updated correctly`() =
         testScope.runTest {
             timerController.setTimer(3000L)
             timerController.start()
@@ -94,7 +94,7 @@ class DefaultTimerControllerTest {
         }
 
     @Test
-    fun testReset_resetsTimerToInitial() =
+    fun `timer is reset correctly`() =
         testScope.runTest {
             timerController.setTimer(5000L)
             timerController.start()
@@ -108,7 +108,7 @@ class DefaultTimerControllerTest {
         }
 
     @Test
-    fun testTimerFinishesCorrectly() =
+    fun `timer finishes correctly`() =
         testScope.runTest {
             timerController.setTimer(2000L)
             timerController.start()
