@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
 
 class DefaultTimerController @Inject constructor(
@@ -38,17 +39,19 @@ class DefaultTimerController @Inject constructor(
         timerJob?.cancel()
         timerJob =
             scope.launch(dispatchersProvider.default) {
-                _timerState.value = TimerState.Running(_timerState.value.data)
+                supervisorScope {
+                    _timerState.value = TimerState.Running(_timerState.value.data)
 
-                while (_timerState.value is TimerState.Running && _timerState.value.remainingTime > 0) {
-                    delay(100L)
-                    _timerState.update {
-                        val remainingTime = (it as TimerState.Running).data.remainingTime - 100L
+                    while (_timerState.value is TimerState.Running && _timerState.value.remainingTime > 0) {
+                        delay(100L)
+                        _timerState.update {
+                            val remainingTime = (it as TimerState.Running).data.remainingTime - 100L
 
-                        if (remainingTime <= 0) {
-                            TimerState.Finished(it.data.copy(remainingTime = 0))
-                        } else {
-                            TimerState.Running(it.data.copy(remainingTime = remainingTime))
+                            if (remainingTime <= 0) {
+                                TimerState.Finished(it.data.copy(remainingTime = 0))
+                            } else {
+                                TimerState.Running(it.data.copy(remainingTime = remainingTime))
+                            }
                         }
                     }
                 }
