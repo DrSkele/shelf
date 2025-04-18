@@ -26,5 +26,6 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.datastore.preferences)
     testImplementation(libs.kotlinx.coroutines.test)
 }
