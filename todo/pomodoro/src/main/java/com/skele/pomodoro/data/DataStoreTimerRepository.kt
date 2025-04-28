@@ -1,4 +1,4 @@
-package com.skele.pomodoro.data.timer
+package com.skele.pomodoro.data
 
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences
@@ -6,10 +6,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.skele.pomodoro.domain.timer.TimerRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 import javax.inject.Inject
@@ -60,6 +60,12 @@ class DataStoreTimerRepository @Inject constructor(
     override fun getLongBreakTime(): Flow<Long> =
         context.dataStore.data
             .getWithDefault(PreferencesKeys.LONG_BREAK_TIME, DEFAULT_LONG_BREAK_TIME)
+
+    override suspend fun getPomodoroTimeOnce(): Long = getPomodoroTime().first()
+
+    override suspend fun getShortBreakTimeOnce(): Long = getShortBreakTime().first()
+
+    override suspend fun getLongBreakTimeOnce(): Long = getLongBreakTime().first()
 
     override suspend fun updatePomodoroTime(timeMs: Long) {
         context.dataStore.edit { preferences ->

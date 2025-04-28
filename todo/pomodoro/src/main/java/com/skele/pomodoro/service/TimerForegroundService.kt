@@ -1,4 +1,4 @@
-package com.skele.pomodoro.service.timer
+package com.skele.pomodoro.service
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -8,8 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.skele.pomodoro.domain.timer.TimerController
-import com.skele.pomodoro.domain.timer.remainingTime
+import com.skele.pomodoro.domain.TimerController
+import com.skele.pomodoro.domain.remainingTime
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

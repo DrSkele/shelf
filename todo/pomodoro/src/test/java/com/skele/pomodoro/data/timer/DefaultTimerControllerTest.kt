@@ -1,8 +1,9 @@
 package com.skele.pomodoro.data.timer
 
 import com.skele.pomodoro.TestDispatcherProvider
-import com.skele.pomodoro.domain.timer.TimerController
-import com.skele.pomodoro.domain.timer.TimerState
+import com.skele.pomodoro.domain.DefaultTimerController
+import com.skele.pomodoro.domain.TimerController
+import com.skele.pomodoro.domain.TimerState
 import com.skele.pomodoro.util.DispatchersProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel

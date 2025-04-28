@@ -1,10 +1,10 @@
 package com.skele.pomodoro.di
 
 import android.content.Context
-import com.skele.pomodoro.data.timer.DataStoreTimerRepository
-import com.skele.pomodoro.data.timer.DefaultTimerController
-import com.skele.pomodoro.domain.timer.TimerController
-import com.skele.pomodoro.domain.timer.TimerRepository
+import com.skele.pomodoro.data.DataStoreTimerRepository
+import com.skele.pomodoro.domain.DefaultTimerController
+import com.skele.pomodoro.domain.TimerController
+import com.skele.pomodoro.data.TimerRepository
 import com.skele.pomodoro.util.DispatchersProvider
 import dagger.Module
 import dagger.Provides

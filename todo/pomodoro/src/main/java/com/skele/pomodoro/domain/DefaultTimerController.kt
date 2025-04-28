@@ -1,9 +1,5 @@
-package com.skele.pomodoro.data.timer
+package com.skele.pomodoro.domain
 
-import com.skele.pomodoro.domain.timer.TimerController
-import com.skele.pomodoro.domain.timer.TimerData
-import com.skele.pomodoro.domain.timer.TimerState
-import com.skele.pomodoro.domain.timer.remainingTime
 import com.skele.pomodoro.util.DispatchersProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -48,9 +44,9 @@ class DefaultTimerController @Inject constructor(
                             val remainingTime = (it as TimerState.Running).data.remainingTime - 100L
 
                             if (remainingTime <= 0) {
-                                TimerState.Finished(it.data.copy(remainingTime = 0))
+                                it.toState<TimerState.Finished>(0)
                             } else {
-                                TimerState.Running(it.data.copy(remainingTime = remainingTime))
+                                it.toState<TimerState.Running>(remainingTime)
                             }
                         }
                     }
