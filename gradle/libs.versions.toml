@@ -30,6 +30,9 @@ navigation-compose = "2.8.3"
 hilt = "2.50"
 hilt-navigation-compose = "1.2.0"
 
+# room
+room = "2.6.1"
+
 [libraries]
 # gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -72,6 +75,12 @@ hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testi
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 
+# room
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+
 [bundles]
 android-core = [ "androidx-core-ktx", "junit", "androidx-junit", "androidx-espresso-core" ]
 
@@ -91,3 +100,4 @@ module-android-library = { id = "skele.android.library", version = "unspecified"
 module-android-application-compose = { id = "skele.android.application.compose", version = "unspecified" }
 module-android-library-compose = { id = "skele.android.library.compose", version = "unspecified" }
 module-hilt = { id = "skele.android.hilt", version = "unspecified" }
+module-room = { id = "skele.android.room", version = "unspecified" }

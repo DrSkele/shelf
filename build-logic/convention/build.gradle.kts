@@ -20,27 +20,31 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
 }
 
-gradlePlugin{
-    plugins{
-        register("androidApplicationConventionPlugin"){
+gradlePlugin {
+    plugins {
+        register("androidApplicationConventionPlugin") {
             id = "skele.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
-        register("androidLibraryConventionPlugin"){
+        register("androidLibraryConventionPlugin") {
             id = "skele.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
-        register("androidApplicationComposeConventionPlugin"){
+        register("androidApplicationComposeConventionPlugin") {
             id = "skele.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
-        register("androidLibraryComposeConventionPlugin"){
+        register("androidLibraryComposeConventionPlugin") {
             id = "skele.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
-        register("androidHiltConventionPlugin"){
+        register("androidHiltConventionPlugin") {
             id = "skele.android.hilt"
             implementationClass = "HiltConventionPlugin"
+        }
+        register("androidRoomConventionPlugin") {
+            id = "skele.android.room"
+            implementationClass = "RoomConventionPlugin"
         }
     }
 }

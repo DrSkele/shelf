@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.module.android.application.compose)
     alias(libs.plugins.module.hilt)
+    alias(libs.plugins.module.room)
 }
 
 android {
@@ -26,6 +27,5 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.datastore.preferences)
     testImplementation(libs.kotlinx.coroutines.test)
 }
