@@ -46,5 +46,9 @@ gradlePlugin {
             id = "skele.android.room"
             implementationClass = "RoomConventionPlugin"
         }
+        register("kotlinLibraryConventionPlugin") {
+            id = "skele.kotlin.library"
+            implementationClass = "KotlinLibraryConventionPlugin"
+        }
     }
 }
