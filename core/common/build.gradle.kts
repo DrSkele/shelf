@@ -1,18 +1,13 @@
 plugins {
-    alias(libs.plugins.module.android.application.compose)
+    alias(libs.plugins.module.android.library)
     alias(libs.plugins.module.hilt)
-    alias(libs.plugins.module.room)
 }
 
 android {
-    namespace = "com.skele.pomodoro"
-
+    namespace = "com.skele.core.common"
     defaultConfig {
-        applicationId = "com.skele.pomodoro"
-        versionCode = 1
-        versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -27,6 +22,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:domain"))
-    testImplementation(libs.kotlinx.coroutines.test)
+
 }

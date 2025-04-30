@@ -1,18 +1,13 @@
 plugins {
-    alias(libs.plugins.module.android.application.compose)
+    alias(libs.plugins.module.android.library)
     alias(libs.plugins.module.hilt)
-    alias(libs.plugins.module.room)
 }
 
 android {
-    namespace = "com.skele.pomodoro"
-
+    namespace = "com.skele.core.domain"
     defaultConfig {
-        applicationId = "com.skele.pomodoro"
-        versionCode = 1
-        versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -20,13 +15,14 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
 }
 
 dependencies {
-    implementation(project(":core:domain"))
-    testImplementation(libs.kotlinx.coroutines.test)
+    implementation(project(":core:data"))
+    implementation(project(":core:system"))
+    api(project(":core:model"))
 }

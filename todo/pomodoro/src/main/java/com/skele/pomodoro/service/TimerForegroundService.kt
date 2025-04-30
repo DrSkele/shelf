@@ -8,8 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.skele.pomodoro.domain.TimerController
-import com.skele.pomodoro.domain.remainingTime
+import com.skele.core.domain.TimerControllerUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TimerForegroundService : Service() {
-    private lateinit var timerController: TimerController
+    private lateinit var timerControllerUseCase: TimerControllerUseCase
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
@@ -34,8 +33,8 @@ class TimerForegroundService : Service() {
         startForeground(NOTIFICATION_ID, buildNotification("Timer running"))
 
         serviceScope.launch {
-            timerController.timerState.collect { state ->
-                val content = formatTime(state.remainingTime)
+            timerControllerUseCase.timerState.collect { state ->
+                val content = formatTime(state.data.remainingTime)
                 val updated = buildNotification("⏱ $content")
                 notificationManager.notify(NOTIFICATION_ID, updated)
             }
