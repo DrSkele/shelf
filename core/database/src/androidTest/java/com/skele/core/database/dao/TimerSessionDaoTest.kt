@@ -5,6 +5,7 @@ import com.skele.core.database.BaseDatabaseTest
 import com.skele.core.database.entity.TimerSessionEntity
 import com.skele.core.database.entity.TimerSessionStatus
 import com.skele.core.database.entity.TimerSessionType
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -38,7 +39,7 @@ class TimerSessionDaoTest : BaseDatabaseTest() {
             val id = timerSessionDao.insert(timerSession)
 
             // Get all timer sessions from database
-            val allSessions = timerSessionDao.getAllTimerSessions()
+            val allSessions = timerSessionDao.getAllTimerSessions().first()
 
             // Verify the timer session was inserted
             assertEquals(1, allSessions.size)
@@ -77,7 +78,7 @@ class TimerSessionDaoTest : BaseDatabaseTest() {
             timerSessionDao.update(updatedSession)
 
             // Get all timer sessions
-            val allSessions = timerSessionDao.getAllTimerSessions()
+            val allSessions = timerSessionDao.getAllTimerSessions().first()
 
             // Verify the timer session was updated
             assertEquals(1, allSessions.size)
@@ -107,7 +108,7 @@ class TimerSessionDaoTest : BaseDatabaseTest() {
             timerSessionDao.delete(insertedSession)
 
             // Get all timer sessions
-            val allSessions = timerSessionDao.getAllTimerSessions()
+            val allSessions = timerSessionDao.getAllTimerSessions().first()
 
             // Verify the timer session was deleted
             assertEquals(0, allSessions.size)
@@ -155,7 +156,7 @@ class TimerSessionDaoTest : BaseDatabaseTest() {
             timerSessionDao.insert(longBreakSession)
 
             // Get all timer sessions
-            val allSessions = timerSessionDao.getAllTimerSessions()
+            val allSessions = timerSessionDao.getAllTimerSessions().first()
 
             // Verify all sessions were inserted
             assertEquals(3, allSessions.size)

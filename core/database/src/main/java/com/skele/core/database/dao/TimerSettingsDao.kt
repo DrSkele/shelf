@@ -24,10 +24,10 @@ interface TimerSettingsDao {
     suspend fun getAllTimerSettings(): List<TimerSettingsEntity>
 
     @Query("SELECT * FROM timer_settings")
-    suspend fun getAllTimerSettingsFlow(): Flow<List<TimerSettingsEntity>>
+    fun getAllTimerSettingsFlow(): Flow<List<TimerSettingsEntity>>
 
     @Query("SELECT * FROM timer_settings WHERE id = :id")
-    suspend fun getTimerSettingsByIdFlow(id: Long): Flow<TimerSettingsEntity?>
+    fun getTimerSettingsByIdFlow(id: Long): Flow<TimerSettingsEntity?>
 
     @Query("SELECT COUNT(*) FROM timer_settings")
     suspend fun getTimerSettingsCount(): Int

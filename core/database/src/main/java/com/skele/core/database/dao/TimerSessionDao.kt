@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.skele.core.database.entity.TimerSessionEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TimerSessionDao {
@@ -20,5 +21,5 @@ interface TimerSessionDao {
     suspend fun delete(timerSession: TimerSessionEntity)
 
     @Query("SELECT * FROM timer_session")
-    suspend fun getAllTimerSessions(): List<TimerSessionEntity>
+    fun getAllTimerSessions(): Flow<List<TimerSessionEntity>>
 }

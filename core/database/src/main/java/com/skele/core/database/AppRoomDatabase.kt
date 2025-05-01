@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.skele.core.database.dao.TimerSessionDao
 import com.skele.core.database.dao.TimerSettingsDao
+import com.skele.core.database.entity.TimerSessionEntity
 import com.skele.core.database.entity.TimerSettingsEntity
 
-@Database(entities = [TimerSettingsEntity::class], version = 1, exportSchema = true)
+@Database(entities = [TimerSettingsEntity::class, TimerSessionEntity::class], version = 1, exportSchema = true)
 abstract class AppRoomDatabase : RoomDatabase() {
     abstract fun timerSettingsDao(): TimerSettingsDao
 
