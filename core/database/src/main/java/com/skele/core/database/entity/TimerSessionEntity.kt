@@ -11,21 +11,21 @@ data class TimerSessionEntity(
     val startTime: Long,
     val endTime: Long,
     val duration: Long,
-    val type: TimerSessionType,
-    val status: TimerSessionStatus,
+    val type: TimerSessionEntityType,
+    val status: TimerSessionEntityStatus,
 ) {
     companion object {
         const val tableName = "timer_session"
     }
 }
 
-enum class TimerSessionType {
+enum class TimerSessionEntityType {
     POMODORO,
     SHORT_BREAK,
     LONG_BREAK,
 }
 
-enum class TimerSessionStatus {
+enum class TimerSessionEntityStatus {
     COMPLETED,
     SKIPPED,
     RESET,

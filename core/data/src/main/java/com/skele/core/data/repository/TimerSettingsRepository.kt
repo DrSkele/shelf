@@ -1,16 +1,16 @@
 package com.skele.core.data.repository
 
-import com.skele.core.database.entity.TimerSettingsEntity
+import com.skele.core.model.TimerSettings
 import kotlinx.coroutines.flow.Flow
 
 interface TimerSettingsRepository {
-    suspend fun getSettingsList(): Flow<List<TimerSettingsEntity>>
+    fun getSettingsList(): Flow<List<TimerSettings>>
 
-    suspend fun getSettings(id: Long): Flow<TimerSettingsEntity?>
+    fun getSettings(id: Long): Flow<TimerSettings?>
 
-    suspend fun insertSettings(settings: TimerSettingsEntity): Long
+    suspend fun insertSettings(settings: TimerSettings): Long
 
-    suspend fun updateSettings(settings: TimerSettingsEntity): Unit
+    suspend fun updateSettings(settings: TimerSettings): Unit
 
-    suspend fun deleteSettings(settings: TimerSettingsEntity): Unit
+    suspend fun deleteSettings(settings: TimerSettings): Unit
 }
