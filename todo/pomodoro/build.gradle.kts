@@ -28,5 +28,4 @@ android {
 
 dependencies {
     implementation(project(":core:domain"))
-    testImplementation(libs.kotlinx.coroutines.test)
 }

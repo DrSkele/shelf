@@ -1,6 +1,6 @@
 package com.skele.core.system
 
-import com.skele.pomodoro.util.DispatchersProvider
+import com.skele.core.common.DispatchersProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class DefaultTimerController @Inject constructor(
     private val scope: CoroutineScope,
-    private val dispatchersProvider: DispatchersProvider,
+    private val dispatchers: DispatchersProvider,
 ) : TimerController {
     private val _timerState = MutableStateFlow<TimerState>(TimerState.Idle(TimerData()))
 
@@ -34,7 +34,7 @@ class DefaultTimerController @Inject constructor(
 
         timerJob?.cancel()
         timerJob =
-            scope.launch(dispatchersProvider.default) {
+            scope.launch(dispatchers.default) {
                 supervisorScope {
                     _timerState.value = TimerState.Running(_timerState.value.data)
 

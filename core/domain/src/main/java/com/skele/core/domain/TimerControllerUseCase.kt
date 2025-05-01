@@ -29,7 +29,7 @@ class TimerControllerUseCase @Inject constructor(
     fun reset() = timerController.reset()
 
     // Pomodoro cycle management
-    suspend fun proceedToNextTime(settings: TimerSettings) {
+    fun proceedToNextTime(settings: TimerSettings) {
         when (currentTimerType) {
             TimerType.POMODORO -> {
                 // After a pomodoro, increment count
