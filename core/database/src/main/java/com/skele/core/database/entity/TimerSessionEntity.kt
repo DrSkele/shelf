@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class TimerSessionEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
+    val groupId: Long,
     val description: String,
     val startTime: Long,
     val endTime: Long,

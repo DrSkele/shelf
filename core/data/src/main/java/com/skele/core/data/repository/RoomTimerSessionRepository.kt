@@ -27,6 +27,7 @@ class RoomTimerSessionRepository @Inject constructor(
 internal fun TimerSessionEntity.toModel(): TimerSession =
     TimerSession(
         id = id,
+        groupId = groupId,
         description = description,
         startTime = startTime,
         endTime = endTime,
@@ -38,6 +39,7 @@ internal fun TimerSessionEntity.toModel(): TimerSession =
 internal fun TimerSession.toEntity(): TimerSessionEntity =
     TimerSessionEntity(
         id = id,
+        groupId = groupId,
         description = description,
         startTime = startTime,
         endTime = endTime,

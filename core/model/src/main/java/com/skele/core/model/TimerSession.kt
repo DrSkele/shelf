@@ -2,6 +2,7 @@ package com.skele.core.model
 
 data class TimerSession(
     val id: Long,
+    val groupId: Long,
     val description: String,
     val startTime: Long,
     val endTime: Long,
