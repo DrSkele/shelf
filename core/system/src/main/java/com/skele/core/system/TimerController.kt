@@ -9,6 +9,12 @@ interface TimerController {
     val timerState: StateFlow<TimerState>
 
     /**
+     * Gets the time when the timer was started for the first time.
+     * @return The start time of the timer in milliseconds.
+     */
+    fun getStartTime(): Long
+
+    /**
      * Initializes the timer to the given time.
      * Calling this on any state will reset the timer and be [TimerState.Idle].
      * @param time The total time of timer in milliseconds.

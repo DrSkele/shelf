@@ -21,7 +21,11 @@ class DefaultTimerController @Inject constructor(
     override val timerState: StateFlow<TimerState>
         get() = _timerState.asStateFlow()
 
+    private var startTime: Long = 0L
+
     private var timerJob: Job? = null
+
+    override fun getStartTime(): Long = startTime
 
     override fun setTimer(time: Long) {
         timerJob?.cancel()
@@ -32,21 +36,21 @@ class DefaultTimerController @Inject constructor(
     override fun start() {
         if (timerJob?.isActive == true || _timerState.value is TimerState.Finished) return
 
+        if (startTime == 0L) startTime = System.currentTimeMillis()
         timerJob?.cancel()
         timerJob =
             scope.launch(dispatchers.default) {
                 supervisorScope {
                     _timerState.value = TimerState.Running(_timerState.value.data)
-
                     while (_timerState.value is TimerState.Running && _timerState.value.remainingTime > 0) {
-                        delay(100L)
-                        _timerState.update {
-                            val remainingTime = (it as TimerState.Running).data.remainingTime - 100L
+                        delay(if (_timerState.value.remainingTime > 100L) 100L else _timerState.value.remainingTime)
+                        _timerState.update { state ->
+                            val remainingTime = state.data.remainingTime - 100L
 
                             if (remainingTime <= 0) {
-                                it.toState<TimerState.Finished>(0)
+                                state.toState<TimerState.Finished>(0)
                             } else {
-                                it.toState<TimerState.Running>(remainingTime)
+                                state.toState<TimerState.Running>(remainingTime)
                             }
                         }
                     }
@@ -66,6 +70,7 @@ class DefaultTimerController @Inject constructor(
     }
 
     override fun reset() {
+        startTime = 0L
         timerJob?.cancel()
         _timerState.value =
             TimerState.Idle(
