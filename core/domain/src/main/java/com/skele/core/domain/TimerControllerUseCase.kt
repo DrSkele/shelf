@@ -1,10 +1,24 @@
 package com.skele.core.domain
 
+import com.skele.core.common.DispatchersProvider
+import com.skele.core.data.repository.TimerSessionRepository
+import com.skele.core.model.TimerSession
+import com.skele.core.model.TimerSessionStatus
+import com.skele.core.model.TimerSessionType
 import com.skele.core.model.TimerSettings
 import com.skele.core.system.TimerController
+import com.skele.core.system.TimerState
+import com.skele.core.system.remainingTime
+import com.skele.core.system.totalTime
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 
 class TimerControllerUseCase @Inject constructor(
+    private val scope: CoroutineScope,
+    private val dispatcher: DispatchersProvider,
+    private val timerSessionRepository: TimerSessionRepository,
     private val timerController: TimerController,
 ) {
     // Timer types
@@ -16,6 +30,41 @@ class TimerControllerUseCase @Inject constructor(
 
     // Expose the timer state
     val timerState get() = timerController.timerState
+
+    /**
+     * Gets the timer state that automatically saves the session on completion([TimerState.Finished]).
+     * @param settings Saves the session with given settings.
+     */
+    fun getTimerStateWithAutoSave(settings: TimerSettings): Flow<TimerState> =
+        timerController.timerState.transform {
+            if (it is TimerState.Finished) saveSession(it, settings, TimerSessionStatus.COMPLETED)
+            emit(it)
+        }
+
+    // Save the current session
+    suspend fun saveSession(
+        state: TimerState,
+        settings: TimerSettings,
+        sessionStatus: TimerSessionStatus,
+    ) {
+        timerSessionRepository.insertSession(
+            TimerSession(
+                id = 0,
+                groupId = settings.id,
+                description = settings.description,
+                startTime = timerController.getStartTime(),
+                endTime = System.currentTimeMillis(),
+                duration = state.totalTime - state.remainingTime,
+                type =
+                    when (currentTimerType) {
+                        TimerType.POMODORO -> TimerSessionType.POMODORO
+                        TimerType.SHORT_BREAK -> TimerSessionType.SHORT_BREAK
+                        TimerType.LONG_BREAK -> TimerSessionType.LONG_BREAK
+                    },
+                status = sessionStatus,
+            ),
+        )
+    }
 
     // Timer control methods
     fun setTimer(timeMs: Long) = timerController.setTimer(timeMs)
