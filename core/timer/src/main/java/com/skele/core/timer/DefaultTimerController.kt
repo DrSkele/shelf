@@ -37,15 +37,19 @@ class DefaultTimerController @Inject constructor(
         if (timerJob?.isActive == true || _timerState.value is TimerState.Finished) return
 
         if (startTime == 0L) startTime = System.currentTimeMillis()
-        timerJob?.cancel()
+
+        var timeMillis = System.currentTimeMillis()
         timerJob =
             scope.launch(dispatchers.default) {
                 supervisorScope {
                     _timerState.value = TimerState.Running(_timerState.value.data)
                     while (_timerState.value is TimerState.Running && _timerState.value.remainingTime > 0) {
                         delay(if (_timerState.value.remainingTime > 100L) 100L else _timerState.value.remainingTime)
+                        val now = System.currentTimeMillis()
+                        val delta = now - timeMillis
+                        timeMillis = now
                         _timerState.update { state ->
-                            val remainingTime = state.data.remainingTime - 100L
+                            val remainingTime = state.data.remainingTime - delta
 
                             if (remainingTime <= 0) {
                                 state.toState<TimerState.Finished>(0)
@@ -78,5 +82,10 @@ class DefaultTimerController @Inject constructor(
                     remainingTime = _timerState.value.data.totalTime,
                 ),
             )
+    }
+
+    override fun cleanup() {
+        timerJob?.cancel()
+        startTime = 0L
     }
 }

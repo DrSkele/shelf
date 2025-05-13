@@ -40,9 +40,10 @@ sealed interface TimerState {
 
 /**
  * Generic function to transform the current state to a different TimerState type.
- * with optional new remaining time.
+ * Must specify the type of the [TimerState]
  * @param remainingTime Optional new remaining time value
  * @return a new instance of the specified TimerState type
+ * @throws IllegalArgumentException if the specified type is not [TimerState]
  */
 inline fun <reified T : TimerState> TimerState.toState(remainingTime: Long? = null): T {
     val newData =

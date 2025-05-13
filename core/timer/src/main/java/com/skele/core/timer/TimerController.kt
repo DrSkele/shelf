@@ -44,4 +44,9 @@ interface TimerController {
      * Changes the state to [TimerState.Idle].
      */
     fun reset()
+
+    /**
+     * Cleans up any running coroutines in the controller.
+     */
+    fun cleanup()
 }
