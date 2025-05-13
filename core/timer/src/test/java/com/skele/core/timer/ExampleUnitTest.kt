@@ -1,4 +1,4 @@
-package com.skele.core.system
+package com.skele.core.timer
 
 import org.junit.Test
 

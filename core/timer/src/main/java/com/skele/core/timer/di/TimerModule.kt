@@ -1,8 +1,8 @@
-package com.skele.core.system.di
+package com.skele.core.timer.di
 
 import com.skele.core.common.DispatchersProvider
-import com.skele.core.system.DefaultTimerController
-import com.skele.core.system.TimerController
+import com.skele.core.timer.DefaultTimerController
+import com.skele.core.timer.TimerController
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

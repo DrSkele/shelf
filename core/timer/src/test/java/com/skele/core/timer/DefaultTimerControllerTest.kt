@@ -1,4 +1,4 @@
-package com.skele.core.system
+package com.skele.core.timer
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel

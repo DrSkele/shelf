@@ -1,4 +1,4 @@
-package com.skele.core.system
+package com.skele.core.timer
 
 import com.skele.core.common.DispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher

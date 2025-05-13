@@ -6,10 +6,10 @@ import com.skele.core.model.TimerSession
 import com.skele.core.model.TimerSessionStatus
 import com.skele.core.model.TimerSessionType
 import com.skele.core.model.TimerSettings
-import com.skele.core.system.TimerController
-import com.skele.core.system.TimerState
-import com.skele.core.system.remainingTime
-import com.skele.core.system.totalTime
+import com.skele.core.timer.TimerController
+import com.skele.core.timer.TimerState
+import com.skele.core.timer.remainingTime
+import com.skele.core.timer.totalTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
