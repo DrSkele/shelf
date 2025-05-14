@@ -1,6 +1,7 @@
 package com.skele.core.timer
 
 import com.skele.core.common.DispatchersProvider
+import com.skele.core.common.TimeProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class DefaultTimerController @Inject constructor(
     private val scope: CoroutineScope,
     private val dispatchers: DispatchersProvider,
+    private val time: TimeProvider
 ) : TimerController {
     private val _timerState = MutableStateFlow<TimerState>(TimerState.Idle(TimerData()))
 
@@ -38,14 +40,14 @@ class DefaultTimerController @Inject constructor(
 
         if (startTime == 0L) startTime = System.currentTimeMillis()
 
-        var timeMillis = System.currentTimeMillis()
+        var timeMillis = time.currentTimeMillis()
         timerJob =
             scope.launch(dispatchers.default) {
                 supervisorScope {
                     _timerState.value = TimerState.Running(_timerState.value.data)
                     while (_timerState.value is TimerState.Running && _timerState.value.remainingTime > 0) {
                         delay(if (_timerState.value.remainingTime > 100L) 100L else _timerState.value.remainingTime)
-                        val now = System.currentTimeMillis()
+                        val now = time.currentTimeMillis()
                         val delta = now - timeMillis
                         timeMillis = now
                         _timerState.update { state ->

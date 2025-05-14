@@ -12,4 +12,8 @@ object DispatchersModule {
     @Provides
     @Singleton
     fun provideDispatchersProvider(): DispatchersProvider = DefaultDispatchersProvider()
+
+    @Provides
+    @Singleton
+    fun provideTimeProvider(): TimeProvider = DefaultTimeProvider()
 }

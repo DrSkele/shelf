@@ -1,6 +1,7 @@
 package com.skele.core.timer.di
 
 import com.skele.core.common.DispatchersProvider
+import com.skele.core.common.TimeProvider
 import com.skele.core.timer.DefaultTimerController
 import com.skele.core.timer.TimerController
 import dagger.Module
@@ -18,5 +19,6 @@ object TimerModule {
     fun provideTimerController(
         scope: CoroutineScope,
         dispatchersProvider: DispatchersProvider,
-    ): TimerController = DefaultTimerController(scope, dispatchersProvider)
+        timeProvider: TimeProvider,
+    ): TimerController = DefaultTimerController(scope, dispatchersProvider, timeProvider)
 }
