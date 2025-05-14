@@ -1,6 +1,7 @@
 package com.skele.core.stopwatch.di
 
 import com.skele.core.common.DispatchersProvider
+import com.skele.core.common.TimeProvider
 import com.skele.core.stopwatch.DefaultStopwatchController
 import com.skele.core.stopwatch.StopwatchController
 import dagger.Module
@@ -18,5 +19,6 @@ class StopwatchModule {
     fun provideStopwatchController(
         scope: CoroutineScope,
         dispatchersProvider: DispatchersProvider,
-    ): StopwatchController = DefaultStopwatchController(scope, dispatchersProvider)
+        timeProvider: TimeProvider,
+    ): StopwatchController = DefaultStopwatchController(scope, dispatchersProvider, timeProvider)
 }
