@@ -18,18 +18,23 @@ class DefaultTimerControllerTest {
     private lateinit var timerController: TimerController
     private lateinit var testScope: TestScope
     private lateinit var dispatchersProvider: com.skele.core.common.DispatchersProvider
+    private lateinit var testTimeProvider: TestTimeProvider
 
     @Before
     fun setup() {
         dispatchersProvider = TestDispatcherProvider()
         testScope = TestScope(dispatchersProvider.default)
+        testTimeProvider = TestTimeProvider()
 
-        timerController =
-            DefaultTimerController(testScope, dispatchersProvider)
+        timerController = DefaultTimerController(testScope, dispatchersProvider, testTimeProvider)
     }
 
     @After
     fun tearDown() {
+        // First cancel any running timer jobs
+        timerController.pause()
+        timerController.reset()
+        // Then cancel the test scope
         testScope.cancel()
     }
 
@@ -48,12 +53,18 @@ class DefaultTimerControllerTest {
         testScope.runTest {
             timerController.setTimer(3000L)
             timerController.start()
-            advanceTimeBy(2000L)
+
+            testTimeProvider.setTime(2000L)
+            advanceTimeBy(100) // Shorter advance to trigger the delay in the controller
             runCurrent()
 
+            // Ensure the job completes by pausing the timer at the end
             val state = timerController.timerState.value
             assertTrue(state is TimerState.Running)
             assertEquals(1000L, state.data.remainingTime)
+
+            // Important: ensure cleanup to prevent hanging coroutines
+            timerController.cleanup()
         }
 
     @Test
@@ -61,15 +72,20 @@ class DefaultTimerControllerTest {
         testScope.runTest {
             timerController.setTimer(3000L)
             timerController.start()
-            advanceTimeBy(2000L)
+
+            testTimeProvider.setTime(2000L)
+            advanceTimeBy(100)
             runCurrent()
+
             timerController.pause()
             val pausedState = timerController.timerState.value
             assertTrue(pausedState is TimerState.Paused)
             val timeLeft = pausedState.data.remainingTime
 
-            advanceTimeBy(2000L)
+            testTimeProvider.setTime(4000L)
+            advanceTimeBy(100)
             runCurrent()
+
             assertEquals(timeLeft, timerController.timerState.value.data.remainingTime)
         }
 
@@ -78,17 +94,22 @@ class DefaultTimerControllerTest {
         testScope.runTest {
             timerController.setTimer(3000L)
             timerController.start()
-            advanceTimeBy(2000L)
+
+            testTimeProvider.setTime(2000L)
+            advanceTimeBy(100)
             runCurrent()
+
             timerController.pause()
             val pausedTime = timerController.timerState.value.data.remainingTime
             timerController.resume()
-            advanceTimeBy(1000L)
+
+            testTimeProvider.setTime(3000L)
+            advanceTimeBy(100)
             runCurrent()
 
             val state = timerController.timerState.value
             assertTrue(state is TimerState.Finished)
-            assertEquals((pausedTime - 1000L).coerceAtLeast(0L), state.data.remainingTime)
+            assertEquals(0L, state.data.remainingTime)
         }
 
     @Test
@@ -96,8 +117,11 @@ class DefaultTimerControllerTest {
         testScope.runTest {
             timerController.setTimer(5000L)
             timerController.start()
-            advanceTimeBy(2000L)
+
+            testTimeProvider.setTime(2000L)
+            advanceTimeBy(100)
             runCurrent()
+
             timerController.reset()
 
             val state = timerController.timerState.value
@@ -110,7 +134,9 @@ class DefaultTimerControllerTest {
         testScope.runTest {
             timerController.setTimer(2000L)
             timerController.start()
-            advanceTimeBy(2000L)
+
+            testTimeProvider.setTime(2000L)
+            advanceTimeBy(100)
             runCurrent()
 
             val state = timerController.timerState.value
@@ -137,7 +163,8 @@ class DefaultTimerControllerTest {
             timerController.start()
 
             // Let the timer run until completion
-            advanceTimeBy(350L) // A bit more than the timer duration
+            testTimeProvider.setTime(350L)
+            advanceTimeBy(100)
             runCurrent()
 
             // Assert
@@ -188,8 +215,9 @@ class DefaultTimerControllerTest {
 
                 timerController.start()
 
-                // Advance time beyond the timer duration
-                advanceTimeBy(timerMs + 150L)
+                // Advance time to completion
+                testTimeProvider.setTime(timerMs + 50)
+                advanceTimeBy(100)
                 runCurrent()
 
                 // Check for multiple Finished states
@@ -219,6 +247,7 @@ class DefaultTimerControllerTest {
                 job.cancel()
                 // Reset for next test
                 timerController.reset()
+                testTimeProvider.setTime(0)
                 runCurrent()
             }
         }
@@ -238,7 +267,8 @@ class DefaultTimerControllerTest {
             timerController.setTimer(200L)
             runCurrent()
             timerController.start()
-            advanceTimeBy(250L)
+            testTimeProvider.setTime(250L)
+            advanceTimeBy(100)
             runCurrent()
             normalJob.cancel()
 
@@ -253,15 +283,19 @@ class DefaultTimerControllerTest {
 
             timerController.setTimer(200L)
             runCurrent()
+            testTimeProvider.setTime(0)
             timerController.start()
-            advanceTimeBy(100L)
+            testTimeProvider.setTime(100L)
+            advanceTimeBy(100)
             runCurrent()
             timerController.pause()
             runCurrent()
-            advanceTimeBy(50L) // Time advance while paused
+            testTimeProvider.setTime(150L) // Time advance while paused
+            advanceTimeBy(100)
             runCurrent()
             timerController.resume()
-            advanceTimeBy(200L) // Should finish
+            testTimeProvider.setTime(250L) // Should finish
+            advanceTimeBy(100)
             runCurrent()
             pauseResumeJob.cancel()
 
@@ -276,12 +310,15 @@ class DefaultTimerControllerTest {
 
             timerController.setTimer(200L)
             runCurrent()
+            testTimeProvider.setTime(0)
             timerController.start()
-            advanceTimeBy(300L)
+            testTimeProvider.setTime(300L)
+            advanceTimeBy(100)
             runCurrent()
 
             // Try to start again after finishing
             timerController.start()
+            advanceTimeBy(100)
             runCurrent()
 
             multipleStartJob.cancel()
@@ -331,16 +368,21 @@ class DefaultTimerControllerTest {
                 // Set timer that will divide the interval evenly
                 timerController.setTimer(interval)
                 runCurrent()
-
+                testTimeProvider.setTime(0)
                 timerController.start()
 
                 // Advance time in small steps to check for transition issues
-                var totalAdvanced = 0L
-                while (totalAdvanced < interval + 50L) {
-                    advanceTimeBy(10L)
+                for (step in 0 until 5) {
+                    val timeAdvance = interval / 4
+                    testTimeProvider.setTime((step + 1) * timeAdvance)
+                    advanceTimeBy(100L)
                     runCurrent()
-                    totalAdvanced += 10L
                 }
+
+                // Make sure we're past the interval
+                testTimeProvider.setTime(interval + 50)
+                advanceTimeBy(100L)
+                runCurrent()
 
                 // Count Finished states
                 val finishedCount = stateEmissions.count { it is TimerState.Finished }
@@ -350,13 +392,10 @@ class DefaultTimerControllerTest {
                     finishedCount,
                 )
 
-                // Verify the transitions
-                val stateSequence = stateEmissions.map { it::class.simpleName }
-                println("State sequence for $interval ms: $stateSequence")
-
                 // Clean up before next iteration
                 job.cancel()
                 timerController.reset()
+                testTimeProvider.setTime(0)
                 runCurrent()
             }
         }
