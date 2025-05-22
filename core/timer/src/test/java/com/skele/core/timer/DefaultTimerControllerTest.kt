@@ -1,5 +1,6 @@
 package com.skele.core.timer
 
+import com.skele.core.common.DispatchersProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -17,7 +18,7 @@ import org.junit.Test
 class DefaultTimerControllerTest {
     private lateinit var timerController: TimerController
     private lateinit var testScope: TestScope
-    private lateinit var dispatchersProvider: com.skele.core.common.DispatchersProvider
+    private lateinit var dispatchersProvider: DispatchersProvider
     private lateinit var testTimeProvider: TestTimeProvider
 
     @Before
@@ -55,7 +56,7 @@ class DefaultTimerControllerTest {
             timerController.start()
 
             testTimeProvider.setTime(2000L)
-            advanceTimeBy(100) // Shorter advance to trigger the delay in the controller
+            advanceTimeBy(2000L)
             runCurrent()
 
             // Ensure the job completes by pausing the timer at the end
@@ -73,8 +74,8 @@ class DefaultTimerControllerTest {
             timerController.setTimer(3000L)
             timerController.start()
 
-            testTimeProvider.setTime(2000L)
-            advanceTimeBy(100)
+            testTimeProvider.advanceTime(2000L)
+            advanceTimeBy(2000L)
             runCurrent()
 
             timerController.pause()
@@ -82,8 +83,8 @@ class DefaultTimerControllerTest {
             assertTrue(pausedState is TimerState.Paused)
             val timeLeft = pausedState.data.remainingTime
 
-            testTimeProvider.setTime(4000L)
-            advanceTimeBy(100)
+            testTimeProvider.advanceTime(4000L)
+            advanceTimeBy(4000L)
             runCurrent()
 
             assertEquals(timeLeft, timerController.timerState.value.data.remainingTime)
@@ -95,16 +96,18 @@ class DefaultTimerControllerTest {
             timerController.setTimer(3000L)
             timerController.start()
 
-            testTimeProvider.setTime(2000L)
-            advanceTimeBy(100)
+            testTimeProvider.advanceTime(2000L)
+            advanceTimeBy(2000L)
             runCurrent()
 
             timerController.pause()
-            val pausedTime = timerController.timerState.value.data.remainingTime
+            val pausedTime = timerController.timerState.value
+            assertTrue(pausedTime is TimerState.Paused)
+            assertEquals(1000L, pausedTime.data.remainingTime)
             timerController.resume()
 
-            testTimeProvider.setTime(3000L)
-            advanceTimeBy(100)
+            testTimeProvider.advanceTime(3000L)
+            advanceTimeBy(3000L)
             runCurrent()
 
             val state = timerController.timerState.value
