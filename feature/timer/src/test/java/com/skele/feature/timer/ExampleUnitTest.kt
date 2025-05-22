@@ -1,4 +1,4 @@
-package com.skele.feature.pomodoro
+package com.skele.feature.timer
 
 import org.junit.Test
 

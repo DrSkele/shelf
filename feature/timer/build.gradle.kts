@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.skele.feature.pomodoro"
+    namespace = "com.skele.feature.timer"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -23,5 +23,6 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":core:domain"))
+    implementation(project(":core:timer"))
 }
