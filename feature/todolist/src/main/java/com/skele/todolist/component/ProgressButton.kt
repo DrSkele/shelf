@@ -24,8 +24,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlin.math.max
 import kotlin.math.min
 
@@ -52,7 +54,7 @@ fun ProgressButton(
     Row(
         modifier =
             modifier
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(4.dp))
                 .clickable(
                     interactionSource = interactionSource,
                     indication =
@@ -79,12 +81,29 @@ fun ProgressButton(
                             size = Size(canvasWidth - progressWidth, canvasHeight),
                         )
                     }
-                }.padding(16.dp),
+                },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        if (icon != null) Icon(icon, contentDescription = text, tint = overlayColor)
-        if (text != null) Text(text, color = overlayColor)
+        if (icon != null) {
+            Icon(
+                modifier = Modifier.padding(6.dp),
+                imageVector = icon,
+                contentDescription = text,
+                tint = overlayColor,
+            )
+        }
+        if (text != null) {
+            Text(
+                modifier =
+                    Modifier.then(
+                        if (icon != null) Modifier.padding(end = 8.dp) else Modifier.padding(horizontal = 8.dp),
+                    ),
+                text = text,
+                style = TextStyle(fontSize = 14.sp),
+                color = overlayColor,
+            )
+        }
     }
 }
 
