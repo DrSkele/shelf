@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
+import com.skele.core.model.common.Schedule
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -80,47 +81,4 @@ class ScheduleConverter {
 
     @TypeConverter
     fun toSchedule(jsonString: String): Schedule = json.decodeFromString(jsonString)
-}
-
-@Serializable
-enum class ScheduleType {
-    ONE_TIME,
-    EVERYDAY,
-    SPECIFIC_DAYS,
-}
-
-@Serializable
-data class Schedule(
-    val type: ScheduleType,
-    val days: List<DayOfWeek> = emptyList(),
-) {
-    companion object {
-        val ONE_TIME = Schedule(ScheduleType.ONE_TIME)
-
-        val EVERYDAY = Schedule(ScheduleType.EVERYDAY)
-
-        val WEEKDAYS =
-            Schedule(
-                ScheduleType.SPECIFIC_DAYS,
-                listOf(
-                    DayOfWeek.MONDAY,
-                    DayOfWeek.TUESDAY,
-                    DayOfWeek.WEDNESDAY,
-                    DayOfWeek.THURSDAY,
-                    DayOfWeek.FRIDAY,
-                ),
-            )
-
-        val WEEKEND =
-            Schedule(ScheduleType.SPECIFIC_DAYS, listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY))
-
-        fun specificDays(vararg days: DayOfWeek) = Schedule(ScheduleType.SPECIFIC_DAYS, days.toList())
-    }
-
-    fun isActiveOn(day: DayOfWeek): Boolean =
-        when (type) {
-            ScheduleType.ONE_TIME -> false
-            ScheduleType.EVERYDAY -> true
-            ScheduleType.SPECIFIC_DAYS -> day in days
-        }
 }

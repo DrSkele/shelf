@@ -4,7 +4,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.skele.core.database.entity.TimerSettingsEntity
 
-object DatabaseInitializerCallback : RoomDatabase.Callback() {
+object TimerDatabaseInitializerCallback : RoomDatabase.Callback() {
     override fun onCreate(db: SupportSQLiteDatabase) {
         super.onCreate(db)
 

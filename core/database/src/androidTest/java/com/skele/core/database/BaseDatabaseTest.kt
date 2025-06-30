@@ -15,7 +15,7 @@ import org.junit.Before
 @OptIn(ExperimentalCoroutinesApi::class)
 abstract class BaseDatabaseTest {
     // The in-memory database for testing
-    protected lateinit var database: AppRoomDatabase
+    protected lateinit var database: TimerRoomDatabase
 
     // Test dispatcher for coroutines
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
@@ -33,7 +33,7 @@ abstract class BaseDatabaseTest {
             Room
                 .inMemoryDatabaseBuilder(
                     context,
-                    AppRoomDatabase::class.java,
+                    TimerRoomDatabase::class.java,
                 ).allowMainThreadQueries() // Allow queries on main thread for testing
                 .build()
     }

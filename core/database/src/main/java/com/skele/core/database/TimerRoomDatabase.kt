@@ -9,22 +9,26 @@ import com.skele.core.database.dao.TimerSettingsDao
 import com.skele.core.database.entity.TimerSessionEntity
 import com.skele.core.database.entity.TimerSettingsEntity
 
-@Database(entities = [TimerSettingsEntity::class, TimerSessionEntity::class], version = 1, exportSchema = true)
-abstract class AppRoomDatabase : RoomDatabase() {
+@Database(
+    entities = [TimerSettingsEntity::class, TimerSessionEntity::class],
+    version = 1,
+    exportSchema = true,
+)
+abstract class TimerRoomDatabase : RoomDatabase() {
     abstract fun timerSettingsDao(): TimerSettingsDao
 
     abstract fun timerSessionDao(): TimerSessionDao
 
     companion object {
         // Factory method with proper initialization
-        fun createDatabase(context: Context): AppRoomDatabase =
+        fun createDatabase(context: Context): TimerRoomDatabase =
             Room
                 .databaseBuilder(
                     context.applicationContext,
-                    AppRoomDatabase::class.java,
+                    TimerRoomDatabase::class.java,
                     "app_database",
                 ).fallbackToDestructiveMigration()
-                .addCallback(DatabaseInitializerCallback)
+                .addCallback(TimerDatabaseInitializerCallback)
                 .build()
     }
 }

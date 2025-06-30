@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class DatabaseInitializationTest {
-    private lateinit var database: AppRoomDatabase
+    private lateinit var database: TimerRoomDatabase
     private lateinit var timerSettingsDao: TimerSettingsDao
 
     @Before
@@ -27,9 +27,9 @@ class DatabaseInitializationTest {
             Room
                 .inMemoryDatabaseBuilder(
                     context,
-                    AppRoomDatabase::class.java,
+                    TimerRoomDatabase::class.java,
                 ).allowMainThreadQueries()
-                .addCallback(DatabaseInitializerCallback)
+                .addCallback(TimerDatabaseInitializerCallback)
                 .build()
 
         timerSettingsDao = database.timerSettingsDao()
@@ -63,10 +63,10 @@ class DatabaseInitializationTest {
     fun database_factory_method_creates_valid_instance() {
         // Test that the factory method works
         val context = ApplicationProvider.getApplicationContext<Context>()
-        val factoryDatabase = AppRoomDatabase.createDatabase(context)
+        val factoryDatabase = TimerRoomDatabase.createDatabase(context)
 
         // Just check that it doesn't crash and returns a database
-        assertTrue(factoryDatabase is AppRoomDatabase)
+        assertTrue(factoryDatabase is TimerRoomDatabase)
 
         // Clean up
         factoryDatabase.close()

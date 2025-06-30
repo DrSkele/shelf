@@ -1,7 +1,8 @@
 package com.skele.core.database.di
 
 import android.content.Context
-import com.skele.core.database.AppRoomDatabase
+import com.skele.core.database.TimerRoomDatabase
+import com.skele.core.database.TodoRoomDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,17 +15,27 @@ import javax.inject.Singleton
 object DatabaseModule {
     @Provides
     @Singleton
-    fun provideRoomDatabase(
+    fun provideTimerRoomDatabase(
         @ApplicationContext context: Context,
-    ): AppRoomDatabase =
-        AppRoomDatabase
+    ): TimerRoomDatabase =
+        TimerRoomDatabase
             .createDatabase(context)
 
     @Provides
     @Singleton
-    fun provideTimerSettingsDao(database: AppRoomDatabase) = database.timerSettingsDao()
+    fun provideTodoRoomDatabase(
+        @ApplicationContext context: Context,
+    ): TodoRoomDatabase = TodoRoomDatabase.createDatabase(context)
 
     @Provides
     @Singleton
-    fun provideTimerSessionDao(database: AppRoomDatabase) = database.timerSessionDao()
+    fun provideTimerSettingsDao(database: TimerRoomDatabase) = database.timerSettingsDao()
+
+    @Provides
+    @Singleton
+    fun provideTimerSessionDao(database: TimerRoomDatabase) = database.timerSessionDao()
+
+    @Provides
+    @Singleton
+    fun provideToDoDao(database: TodoRoomDatabase) = database.todoDao()
 }
