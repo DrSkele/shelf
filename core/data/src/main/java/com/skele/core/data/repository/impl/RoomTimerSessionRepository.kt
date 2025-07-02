@@ -1,5 +1,6 @@
-package com.skele.core.data.repository
+package com.skele.core.data.repository.impl
 
+import com.skele.core.data.repository.TimerSessionRepository
 import com.skele.core.database.dao.TimerSessionDao
 import com.skele.core.database.entity.TimerSessionEntity
 import com.skele.core.database.entity.TimerSessionEntityStatus

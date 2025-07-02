@@ -1,5 +1,6 @@
-package com.skele.core.data.repository
+package com.skele.core.data.repository.impl
 
+import com.skele.core.data.repository.TimerSettingsRepository
 import com.skele.core.database.dao.TimerSettingsDao
 import com.skele.core.database.entity.TimerSettingsEntity
 import com.skele.core.model.TimerSettings
