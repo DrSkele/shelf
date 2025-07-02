@@ -15,7 +15,7 @@ class StopwatchControllerTest {
     @Before
     fun setup() {
         dispatchersProvider = TestDispatcherProvider()
-        testScope = TestScope(dispatchersProvider.default)
+        testScope = TestScope(dispatchersProvider.Default)
         testTimeProvider = TestTimeProvider()
 
         stopwatchController = DefaultStopwatchController(testScope, dispatchersProvider, testTimeProvider)

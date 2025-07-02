@@ -7,10 +7,10 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 class TestDispatcherProvider : DispatchersProvider {
     val testDispatcher = StandardTestDispatcher()
 
-    override val main: CoroutineDispatcher
+    override val Main: CoroutineDispatcher
         get() = testDispatcher
-    override val io: CoroutineDispatcher
+    override val IO: CoroutineDispatcher
         get() = testDispatcher
-    override val default: CoroutineDispatcher
+    override val Default: CoroutineDispatcher
         get() = testDispatcher
 }

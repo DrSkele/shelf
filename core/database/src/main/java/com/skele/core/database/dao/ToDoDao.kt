@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Update
 import androidx.room.Upsert
 import com.skele.core.database.entity.todo.ToDoEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ToDoDao {
@@ -24,5 +25,5 @@ interface ToDoDao {
     suspend fun delete(toDo: ToDoEntity)
 
     @Query("SELECT * FROM todo")
-    suspend fun getAllToDos(): List<ToDoEntity>
+    fun getAllToDos(): Flow<List<ToDoEntity>>
 }

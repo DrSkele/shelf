@@ -13,7 +13,7 @@ data class ToDoEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val description: String,
-    val isDone: Boolean = false,
+    val isDone: Boolean,
     val schedule: Schedule,
     val timeStamp: Long,
     val data: ToDoData,

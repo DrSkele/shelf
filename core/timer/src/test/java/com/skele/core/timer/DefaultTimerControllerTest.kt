@@ -24,7 +24,7 @@ class DefaultTimerControllerTest {
     @Before
     fun setup() {
         dispatchersProvider = TestDispatcherProvider()
-        testScope = TestScope(dispatchersProvider.default)
+        testScope = TestScope(dispatchersProvider.Default)
         testTimeProvider = TestTimeProvider()
 
         timerController = DefaultTimerController(testScope, dispatchersProvider, testTimeProvider)

@@ -42,7 +42,7 @@ class DefaultTimerController @Inject constructor(
 
         var timeMillis = time.currentTimeMillis()
         timerJob =
-            scope.launch(dispatchers.default) {
+            scope.launch(dispatchers.Default) {
                 supervisorScope {
                     _timerState.value = TimerState.Running(_timerState.value.data)
                     while (_timerState.value is TimerState.Running && _timerState.value.remainingTime > 0) {

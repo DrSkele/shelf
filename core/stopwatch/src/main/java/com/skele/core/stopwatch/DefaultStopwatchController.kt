@@ -30,7 +30,7 @@ class DefaultStopwatchController @Inject constructor(
 
         var timeMillis = time.currentTimeMillis()
         stopwatchJob =
-            scope.launch(dispatchers.default) {
+            scope.launch(dispatchers.Default) {
                 supervisorScope {
                     _stopwatchState.value = StopwatchState.Running(StopwatchData(0))
                     while (_stopwatchState.value is StopwatchState.Running) {
