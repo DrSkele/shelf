@@ -7,8 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import androidx.room.Upsert
-import com.skele.core.database.entity.ToDoEntity
-import com.skele.core.model.common.Schedule
+import com.skele.core.database.entity.todo.ToDoEntity
 
 @Dao
 interface ToDoDao {
@@ -26,7 +25,4 @@ interface ToDoDao {
 
     @Query("SELECT * FROM todo")
     suspend fun getAllToDos(): List<ToDoEntity>
-
-    @Query("SELECT * FROM todo WHERE schedule = :schedule")
-    suspend fun getToDosBySchedule(schedule: Schedule): List<ToDoEntity>
 }

@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.skele.core.database.dao.ToDoDao
-import com.skele.core.database.entity.ToDoEntity
+import com.skele.core.database.entity.todo.ToDoEntity
 
 @Database(entities = [ToDoEntity::class], version = 1, exportSchema = true)
 abstract class TodoRoomDatabase : RoomDatabase() {
