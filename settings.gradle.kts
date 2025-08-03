@@ -21,10 +21,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "My App"
-include(":app")
 include(":practice")
-include(":todo:alarm")
-include(":todo:pomodoro")
 include(":core:database")
 include(":core:domain")
 include(":core:data")
