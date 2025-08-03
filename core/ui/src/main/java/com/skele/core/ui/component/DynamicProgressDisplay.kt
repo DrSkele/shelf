@@ -1,5 +1,6 @@
-package com.skele.feature.timer.component
+package com.skele.core.ui.component
 
+import android.R
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -30,15 +31,15 @@ fun DynamicProgressDisplay(
     isMoving: Boolean,
     startPoint: Offset = Offset(0.2f, 0.85f),
     endPoint: Offset = Offset(0.8f, 0.15f),
-    traveledPathColor: Color = Color.Green,
-    remainingPathColor: Color = Color.Red,
-    originColor: Color = Color.Green,
-    destinationColor: Color = Color.Red,
+    traveledPathColor: Color = Color.Companion.Green,
+    remainingPathColor: Color = Color.Companion.Red,
+    originColor: Color = Color.Companion.Green,
+    destinationColor: Color = Color.Companion.Red,
     originRadius: Float = 8f,
     destinationRadius: Float = 8f,
     idleResourceId: Int,
     movingResourceId: Int,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.Companion,
 ) {
     val progress =
         if (totalTimeMillis > 0) {
@@ -51,10 +52,10 @@ fun DynamicProgressDisplay(
         modifier =
             modifier
                 .fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Companion.Center,
     ) {
         Canvas(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.Companion.fillMaxSize(),
         ) {
             val canvasWidth = size.width
             val canvasHeight = size.height
@@ -85,9 +86,9 @@ fun DynamicProgressDisplay(
                     start = absoluteStartPoint,
                     end = currentPos,
                     strokeWidth = 8.dp.toPx(),
-                    cap = StrokeCap.Round,
+                    cap = StrokeCap.Companion.Round,
                     pathEffect =
-                        PathEffect.dashPathEffect(
+                        PathEffect.Companion.dashPathEffect(
                             floatArrayOf(20f, 60f),
                             originRadius.dp.toPx(),
                         ),
@@ -101,9 +102,9 @@ fun DynamicProgressDisplay(
                     start = absoluteEndPoint,
                     end = currentPos,
                     strokeWidth = 8.dp.toPx(),
-                    cap = StrokeCap.Round,
+                    cap = StrokeCap.Companion.Round,
                     pathEffect =
-                        PathEffect.dashPathEffect(
+                        PathEffect.Companion.dashPathEffect(
                             floatArrayOf(20f, 60f),
                             destinationRadius.dp.toPx(),
                         ),
@@ -130,7 +131,7 @@ fun DynamicProgressDisplay(
             startPoint = startPoint,
             endPoint = endPoint,
             imageResourceId = if (isMoving) movingResourceId else idleResourceId,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.Companion.fillMaxSize(),
         )
     }
 }
@@ -141,7 +142,7 @@ private fun IndicatorAlongPath(
     startPoint: Offset,
     endPoint: Offset,
     imageResourceId: Int,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.Companion,
 ) {
     BoxWithConstraints(modifier = modifier) {
         val canvasWidth = constraints.maxWidth.toFloat()
@@ -177,7 +178,7 @@ private fun IndicatorAlongPath(
             painter = painterResource(id = imageResourceId),
             contentDescription = "Indicator",
             modifier =
-                Modifier
+                Modifier.Companion
                     .size(48.dp)
                     .offset(
                         x = (spaceshipPosition.x / LocalDensity.current.density).dp - 24.dp,
@@ -198,11 +199,11 @@ fun SpaceshipTimerPreview_Start() {
             isMoving = false,
             startPoint = Offset(0.2f, 0.85f), // Default bottom-left
             endPoint = Offset(0.8f, 0.15f), // Default top-right
-            traveledPathColor = Color.Green,
-            remainingPathColor = Color.Red,
-            idleResourceId = android.R.drawable.ic_media_play,
-            movingResourceId = android.R.drawable.ic_media_play,
-            modifier = Modifier.fillMaxSize(),
+            traveledPathColor = Color.Companion.Green,
+            remainingPathColor = Color.Companion.Red,
+            idleResourceId = R.drawable.ic_media_play,
+            movingResourceId = R.drawable.ic_media_play,
+            modifier = Modifier.Companion.fillMaxSize(),
         )
     }
 }
@@ -217,11 +218,11 @@ fun SpaceshipTimerPreview_HalfWay() {
             isMoving = true,
             startPoint = Offset(0.2f, 0.85f),
             endPoint = Offset(0.8f, 0.15f),
-            traveledPathColor = Color.Green,
-            remainingPathColor = Color.Red,
-            idleResourceId = android.R.drawable.ic_media_play,
-            movingResourceId = android.R.drawable.ic_media_ff,
-            modifier = Modifier.fillMaxSize(),
+            traveledPathColor = Color.Companion.Green,
+            remainingPathColor = Color.Companion.Red,
+            idleResourceId = R.drawable.ic_media_play,
+            movingResourceId = R.drawable.ic_media_ff,
+            modifier = Modifier.Companion.fillMaxSize(),
         )
     }
 }
@@ -236,11 +237,11 @@ fun SpaceshipTimerPreview_Horizontal() {
             isMoving = true,
             startPoint = Offset(0.1f, 0.5f), // Left center
             endPoint = Offset(0.9f, 0.5f), // Right center
-            traveledPathColor = Color.Green,
-            remainingPathColor = Color.Red,
-            idleResourceId = android.R.drawable.ic_media_play,
-            movingResourceId = android.R.drawable.ic_media_ff,
-            modifier = Modifier.fillMaxSize(),
+            traveledPathColor = Color.Companion.Green,
+            remainingPathColor = Color.Companion.Red,
+            idleResourceId = R.drawable.ic_media_play,
+            movingResourceId = R.drawable.ic_media_ff,
+            modifier = Modifier.Companion.fillMaxSize(),
         )
     }
 }
@@ -255,11 +256,11 @@ fun SpaceshipTimerPreview_Vertical() {
             isMoving = true,
             startPoint = Offset(0.5f, 0.9f), // Bottom center
             endPoint = Offset(0.5f, 0.1f), // Top center
-            traveledPathColor = Color.Green,
-            remainingPathColor = Color.Red,
-            idleResourceId = android.R.drawable.ic_media_play,
-            movingResourceId = android.R.drawable.ic_media_ff,
-            modifier = Modifier.fillMaxSize(),
+            traveledPathColor = Color.Companion.Green,
+            remainingPathColor = Color.Companion.Red,
+            idleResourceId = R.drawable.ic_media_play,
+            movingResourceId = R.drawable.ic_media_ff,
+            modifier = Modifier.Companion.fillMaxSize(),
         )
     }
 }
@@ -274,11 +275,11 @@ fun SpaceshipTimerPreview_CustomDiagonal() {
             isMoving = true,
             startPoint = Offset(0.15f, 0.2f), // Top-left
             endPoint = Offset(0.85f, 0.8f), // Bottom-right
-            traveledPathColor = Color.Blue,
-            remainingPathColor = Color.Magenta,
-            idleResourceId = android.R.drawable.ic_media_play,
-            movingResourceId = android.R.drawable.ic_media_ff,
-            modifier = Modifier.fillMaxSize(),
+            traveledPathColor = Color.Companion.Blue,
+            remainingPathColor = Color.Companion.Magenta,
+            idleResourceId = R.drawable.ic_media_play,
+            movingResourceId = R.drawable.ic_media_ff,
+            modifier = Modifier.Companion.fillMaxSize(),
         )
     }
 }
@@ -293,11 +294,11 @@ fun SpaceshipTimerPreview_Finished() {
             isMoving = false,
             startPoint = Offset(0.2f, 0.85f),
             endPoint = Offset(0.8f, 0.15f),
-            traveledPathColor = Color.Green,
-            remainingPathColor = Color.Red,
-            idleResourceId = android.R.drawable.ic_media_play,
-            movingResourceId = android.R.drawable.ic_media_ff,
-            modifier = Modifier.fillMaxSize(),
+            traveledPathColor = Color.Companion.Green,
+            remainingPathColor = Color.Companion.Red,
+            idleResourceId = R.drawable.ic_media_play,
+            movingResourceId = R.drawable.ic_media_ff,
+            modifier = Modifier.Companion.fillMaxSize(),
         )
     }
 }

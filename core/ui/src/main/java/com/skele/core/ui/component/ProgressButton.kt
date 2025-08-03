@@ -1,4 +1,4 @@
-package com.skele.todolist.component
+package com.skele.core.ui.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
