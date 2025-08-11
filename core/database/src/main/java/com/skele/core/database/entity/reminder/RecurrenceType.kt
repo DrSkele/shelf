@@ -1,4 +1,4 @@
-package com.skele.core.database.entity
+package com.skele.core.database.entity.reminder
 
 enum class RecurrenceType {
     NONE,

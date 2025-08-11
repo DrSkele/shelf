@@ -1,4 +1,4 @@
-package com.skele.core.database.entity
+package com.skele.core.database.entity.reminder
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

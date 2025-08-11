@@ -1,12 +1,12 @@
-package com.skele.core.database.entity
+package com.skele.core.database.entity.reminder
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.time.LocalDate
 
 @Entity(
-    tableName = "recurrence_days",
+    tableName = "remind_date",
     foreignKeys = [
         ForeignKey(
             entity = ReminderEntity::class,
@@ -16,10 +16,9 @@ import androidx.room.PrimaryKey
         ),
     ],
 )
-data class RecurrenceDayOfWeekEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    @ColumnInfo(index = true)
-    val taskId: Int,
-    val dayOfWeek: Int,
+data class RemindDateEntity(
+    @PrimaryKey val id: Long,
+    val reminderId: Long,
+    val completed: Boolean,
+    val dueDate: LocalDate,
 )

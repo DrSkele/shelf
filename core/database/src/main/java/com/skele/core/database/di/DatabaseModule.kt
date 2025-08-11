@@ -1,6 +1,7 @@
 package com.skele.core.database.di
 
 import android.content.Context
+import com.skele.core.database.ReminderRoomDatabase
 import com.skele.core.database.TimerRoomDatabase
 import com.skele.core.database.TodoRoomDatabase
 import dagger.Module
@@ -29,6 +30,12 @@ object DatabaseModule {
 
     @Provides
     @Singleton
+    fun provideReminderRoomDatabase(
+        @ApplicationContext context: Context,
+    ): ReminderRoomDatabase = ReminderRoomDatabase.create(context)
+
+    @Provides
+    @Singleton
     fun provideTimerSettingsDao(database: TimerRoomDatabase) = database.timerSettingsDao()
 
     @Provides
@@ -38,4 +45,12 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideToDoDao(database: TodoRoomDatabase) = database.todoDao()
+
+    @Provides
+    @Singleton
+    fun provideReminderDao(database: ReminderRoomDatabase) = database.reminderDao()
+
+    @Provides
+    @Singleton
+    fun provideRemindDateDao(database: ReminderRoomDatabase) = database.remindDateDao()
 }
